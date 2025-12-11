@@ -1,0 +1,189 @@
+.bar {
+    position: fixed;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--border);
+    padding: 0.75rem 1.5rem;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    z-index: 100;
+    transition: all 0.3s ease;
+}
+
+[data-theme='dark'] .bar {
+    background: rgba(30, 30, 30, 0.8);
+}
+
+[data-theme='reading'] .bar {
+    background: rgba(245, 230, 211, 0.9);
+    /* Warm paper tone */
+    border-color: rgba(74, 59, 50, 0.1);
+}
+
+.group {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    position: relative;
+}
+
+.divider {
+    width: 1px;
+    height: 24px;
+    background-color: var(--border);
+}
+
+.btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: none;
+    background: transparent;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+}
+
+.btn:hover {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    transform: translateY(-2px);
+}
+
+.btn:active {
+    transform: scale(0.9);
+}
+
+/* Ink Bottle specific styles */
+.inkBtn {
+    color: var(--text-secondary);
+}
+
+.inkBtn.active {
+    color: var(--accent);
+    /* Or a specific ink color like #2980b9 blue or #2c3e50 black */
+}
+
+/* If we want a specific "Ink" color, let's say a deep blue or black depending on theme, 
+   but let's stick to var(--accent) for consistency or specific classic ink blue */
+[data-theme='light'] .inkBtn.active {
+    color: #2c3e50;
+}
+
+[data-theme='dark'] .inkBtn.active {
+    color: #ecf0f1;
+}
+
+[data-theme='reading'] .inkBtn.active {
+    color: #5d4037;
+}
+
+/* Sepia ink */
+
+.count {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    min-width: 20px;
+    text-align: center;
+}
+
+/* Splat Animation */
+.splat {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: currentColor;
+    /* Inherit form button color */
+    pointer-events: none;
+    opacity: 0;
+}
+
+.animating .splat {
+    animation: splash 0.6s ease-out forwards;
+}
+
+@keyframes splash {
+    0% {
+        transform: translate(-50%, -50%) scale(0);
+        opacity: 0.8;
+    }
+
+    50% {
+        opacity: 0.6;
+    }
+
+    100% {
+        transform: translate(-50%, -50%) scale(4);
+        opacity: 0;
+    }
+}
+
+/* Floating Particles for multiple likes */
+.particle {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background: currentColor;
+    border-radius: 50%;
+    pointer-events: none;
+    top: 50%;
+    left: 50%;
+}
+
+@keyframes floatUp {
+    0% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translate(var(--tx), var(--ty)) scale(0);
+        opacity: 0;
+    }
+}
+
+/* Share Tooltip */
+.shareTooltip {
+    position: absolute;
+    bottom: 120%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--text-primary);
+    color: var(--bg-primary);
+    padding: 0.4rem 0.8rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s;
+}
+
+.btn:hover .shareTooltip.show {
+    opacity: 1;
+}
+
+@media (max-width: 768px) {
+    .bar {
+        bottom: 1.5rem;
+        padding: 0.5rem 1rem;
+        gap: 1.5rem;
+        width: 90%;
+        justify-content: space-around;
+        left: 50%;
+    }
+}

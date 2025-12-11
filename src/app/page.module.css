@@ -1,0 +1,679 @@
+.main {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.hero {
+  position: relative;
+  min-height: 85vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--bg-primary);
+  border-bottom: 1px solid var(--border);
+  overflow: hidden;
+  padding: 0;
+}
+
+.heroContainer {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.heroContent {
+  text-align: center;
+  max-width: 800px;
+  z-index: 10;
+  padding: 2rem;
+  background: radial-gradient(circle, var(--bg-primary) 20%, transparent 70%);
+  /* Fade out background to blend */
+}
+
+.ratingBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  background: var(--bg-secondary);
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.stars {
+  color: #fab005;
+  /* Gold/Yellow star color */
+  letter-spacing: 2px;
+}
+
+.heroTitle {
+  font-family: var(--font-serif);
+  font-size: 4.5rem;
+  line-height: 1.1;
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  color: var(--text-primary);
+  margin-bottom: 1.5rem;
+}
+
+.heroHighlight {
+  color: var(--accent);
+  position: relative;
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.heroHighlight::after {
+  content: '';
+  position: absolute;
+  bottom: 8px;
+  left: 0;
+  width: 100%;
+  height: 15px;
+  background-color: #ffeaa7;
+  /* Subtle highlighter yellow */
+  z-index: -1;
+  opacity: 0.6;
+  transform: skewX(-10deg);
+  border-radius: 4px;
+}
+
+[data-theme='dark'] .heroHighlight::after {
+  background-color: #636e72;
+  /* Darker highlighter for dark mode */
+}
+
+.heroSubtitle {
+  font-size: 1.25rem;
+  color: var(--text-secondary);
+  max-width: 600px;
+  margin: 0 auto 2.5rem;
+  line-height: 1.6;
+}
+
+.ctaButton {
+  background-color: #f1c40f;
+  /* Brand yellow/gold similar to example */
+  color: #2d3436;
+  padding: 1rem 2.5rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+  border-radius: 50px;
+  box-shadow: 0 4px 15px rgba(241, 196, 15, 0.3);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.ctaButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(241, 196, 15, 0.4);
+}
+
+/* Floating Cards */
+.floatingCards {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  /* Let clicks pass through to content */
+  z-index: 1;
+}
+
+.floatCard {
+  position: absolute;
+  background: var(--bg-card);
+  padding: 1rem;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  border: 1px solid var(--border);
+  max-width: 220px;
+  transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+  opacity: 0;
+  transform: scale(0.8) translateY(20px);
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.cardAvatar {
+  width: 32px;
+  height: 32px;
+  background: var(--bg-secondary);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  color: var(--accent);
+  font-size: 0.8rem;
+}
+
+.cardName {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.cardRole {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.cardText {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.4;
+  font-style: italic;
+}
+
+/* Visibility States */
+.visible .floatCard {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+}
+
+.hidden .floatCard {
+  opacity: 0;
+  transform: scale(0.8) translateY(20px);
+}
+
+/* Positioning - Scatter them around */
+.pos1 {
+  top: 15%;
+  left: 10%;
+  transform: rotate(-6deg) !important;
+  transition-delay: 0.1s;
+}
+
+.pos2 {
+  top: 20%;
+  right: 12%;
+  transform: rotate(4deg) !important;
+  transition-delay: 0.2s;
+}
+
+.pos3 {
+  bottom: 18%;
+  left: 15%;
+  transform: rotate(3deg) !important;
+  transition-delay: 0.3s;
+}
+
+.pos4 {
+  bottom: 25%;
+  right: 8%;
+  transform: rotate(-5deg) !important;
+  transition-delay: 0.4s;
+}
+
+.pos5 {
+  top: 50%;
+  left: 5%;
+  transform: rotate(-3deg) !important;
+  transition-delay: 0.5s;
+}
+
+/* Override transform for visible state to keep rotation */
+.visible .pos1 {
+  transform: rotate(-6deg) scale(1) translateY(0) !important;
+}
+
+.visible .pos2 {
+  transform: rotate(4deg) scale(1) translateY(0) !important;
+}
+
+.visible .pos3 {
+  transform: rotate(3deg) scale(1) translateY(0) !important;
+}
+
+.visible .pos4 {
+  transform: rotate(-5deg) scale(1) translateY(0) !important;
+}
+
+.visible .pos5 {
+  transform: rotate(-3deg) scale(1) translateY(0) !important;
+}
+
+
+/* Section Headers */
+.sectionHeader {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.sectionTitle {
+  font-family: var(--font-serif);
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.sectionSubtitle {
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+}
+
+/* Categories Section */
+.categoriesSection {
+  padding: 5rem 0;
+  background-color: var(--bg-primary);
+  border-bottom: 1px solid var(--border);
+}
+
+.categoryList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  justify-content: center;
+}
+
+.categoryCard {
+  flex: 1 1 200px;
+  max-width: 250px;
+  height: 180px;
+  padding: 2rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  position: relative;
+}
+
+.categoryCard:hover {
+  border-color: var(--text-primary);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.catIcon {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: var(--text-primary);
+  opacity: 0.8;
+  transition: transform 0.2s ease;
+}
+
+.categoryCard:hover .catIcon {
+  transform: scale(1.1);
+}
+
+.catName {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: 1.2rem;
+  color: var(--text-primary);
+  margin-bottom: 0.4rem;
+}
+
+.catCount {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  font-family: var(--font-sans);
+}
+
+/* Newsletter Section */
+.newsletterSection {
+  padding: 8rem 0;
+  background-color: var(--bg-secondary);
+  background-image: radial-gradient(var(--border) 1px, transparent 1px);
+  background-size: 24px 24px;
+  position: relative;
+}
+
+.newsletterContainer {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+@media (min-width: 768px) {
+  .newsletterContainer {
+    flex-direction: row;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+}
+
+.newsletterTextSide {
+  flex: 1;
+  padding: 4rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: var(--bg-card);
+}
+
+.newsletterFormSide {
+  flex: 1;
+  padding: 4rem;
+  background: var(--text-primary);
+  color: var(--bg-primary);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  /* Center the form visually in this block */
+}
+
+.newsletterTitle {
+  font-family: var(--font-serif);
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: var(--text-primary);
+  line-height: 1.1;
+}
+
+.newsletterText {
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+  max-width: 400px;
+}
+
+.newsletterForm {
+  display: flex;
+  gap: 0.5rem;
+  width: 100%;
+  max-width: 400px;
+}
+
+/* Input needs to look good on DARK background (since form side is text-primary color) */
+.newsletterInput {
+  flex: 1;
+  padding: 0.75rem 1.25rem;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  font-size: 1rem;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  /* Always white text on dark side */
+  font-family: var(--font-sans);
+  transition: all 0.2s;
+}
+
+.newsletterInput::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.newsletterInput:focus {
+  outline: none;
+  background: rgba(255, 255, 255, 0.15);
+  border-color: #fff;
+}
+
+/* Button needs to pop against DARK background */
+.subscribeBtn {
+  background: #fff;
+  color: #000;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: transform 0.2s;
+  font-family: var(--font-sans);
+}
+
+.subscribeBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Handling Light Mode special case for Contrast */
+/* When theme is light: .text-primary is dark, .bg-primary is light. 
+   Right side is Dark. Content is fine.
+   
+   When theme is dark: .text-primary is Light, .bg-primary is Dark.
+   Right side is Light (White). Content needs adaptation?
+*/
+
+[data-theme='dark'] .newsletterFormSide {
+  background: #e0e0e0;
+  /* Explicit light background for contrast in dark mode */
+  color: #121212;
+}
+
+[data-theme='dark'] .newsletterInput {
+  background: rgba(0, 0, 0, 0.05);
+  border-color: rgba(0, 0, 0, 0.1);
+  color: #000;
+}
+
+[data-theme='dark'] .newsletterInput::placeholder {
+  color: rgba(0, 0, 0, 0.5);
+}
+
+[data-theme='dark'] .subscribeBtn {
+  background: #000;
+  color: #fff;
+}
+
+
+@media (max-width: 768px) {
+  .newsletterForm {
+    flex-direction: column;
+  }
+
+  .categoryCard {
+    flex: 1 1 140px;
+    height: 160px;
+    padding: 1.5rem;
+  }
+
+  .newsletterContainer {
+    flex-direction: column;
+    width: 100%;
+    border-radius: 12px;
+  }
+
+  .newsletterTextSide,
+  .newsletterFormSide {
+    padding: 3rem 1.5rem;
+    text-align: center;
+    align-items: center;
+  }
+}
+
+
+
+
+
+
+
+
+
+.content {
+  padding: 4rem 0;
+  background-color: var(--bg-secondary);
+  flex-grow: 1;
+}
+
+.blogLayout {
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+}
+
+.featuredPost {
+  display: grid;
+  grid-template-columns: 1.3fr 0.7fr;
+  gap: 4rem;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.featuredImageWrapper {
+  width: 100%;
+  aspect-ratio: 16/10;
+  border-radius: 20px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+.featuredImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.featuredPost:hover .featuredImage {
+  transform: scale(1.03);
+}
+
+.featuredContent {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.featuredMeta {
+  display: flex;
+  gap: 1rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.featuredCategory {
+  color: var(--accent);
+}
+
+.featuredDate {
+  color: var(--text-secondary);
+}
+
+.featuredLink {
+  text-decoration: none;
+  color: inherit;
+}
+
+.featuredTitle {
+  font-family: var(--font-serif);
+  font-size: 3rem;
+  line-height: 1.1;
+  color: var(--text-primary);
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  transition: color 0.2s;
+}
+
+.featuredTitle:hover {
+  color: var(--accent);
+}
+
+.featuredExcerpt {
+  font-size: 1.15rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+}
+
+.featuredFooter {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  margin-top: 1rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.featuredBtn {
+  background: var(--text-primary);
+  color: var(--bg-primary);
+  padding: 0.75rem 1.5rem;
+  border-radius: 50px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+
+.featuredBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 3rem;
+}
+
+@media (max-width: 1024px) {
+  .featuredPost {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .featuredTitle {
+    font-size: 2.25rem;
+  }
+
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+.footer {
+  padding: 2rem 0;
+  background-color: var(--bg-primary);
+  border-top: 1px solid var(--border);
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+
+@media (max-width: 768px) {
+  .hero {
+    min-height: auto;
+    padding: 6rem 0 4rem;
+  }
+
+  .heroTitle {
+    font-size: 2.5rem;
+  }
+
+  .floatCard {
+    display: none;
+    /* Hide floating cards on mobile to avoid clutter */
+  }
+
+  .heroContent {
+    padding: 1rem;
+    background: none;
+  }
+}
