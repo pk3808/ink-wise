@@ -41,14 +41,15 @@ export default function EditorBlock({
                 addBlock(id, contentEditable as React.MutableRefObject<any>);
             }
         }
-        if (e.key === 'Backspace' && !html) {
-            e.preventDefault();
-            deleteBlock(id, contentEditable as React.MutableRefObject<any>);
-        }
-        // Handle Backspace at start of block (merge) - strictly simple version for now
-        if (e.key === 'Backspace' && window.getSelection()?.anchorOffset === 0) {
-            e.preventDefault();
-            deleteBlock(id, contentEditable as React.MutableRefObject<any>);
+        if (e.key === 'Backspace') {
+            // Check DOM directly to avoid state lag
+            const currentText = contentEditable.current?.innerText || '';
+            const isEmpty = currentText.replace(/\n/g, '').trim() === '';
+
+            if (isEmpty) {
+                e.preventDefault();
+                deleteBlock(id, contentEditable as React.MutableRefObject<any>);
+            }
         }
     };
 
@@ -58,14 +59,15 @@ export default function EditorBlock({
         <div className={styles.blockWrapper}>
             {/* Hover Actions (Drag handle, + button) could go here */}
             <ContentEditable
-                innerRef={contentEditable}
+                id={`block-${id}`}
+                innerRef={contentEditable as any} // Cast to any to bypass strict ref mismatch
                 html={html}
                 tagName={tag}
                 onChange={handleChange}
                 onKeyDown={handleKeyDown}
                 onFocus={onFocus}
                 className={styles.block}
-                data-placeholder={placeholder} // Styles can use this
+                data-placeholder={placeholder}
             />
         </div>
     );

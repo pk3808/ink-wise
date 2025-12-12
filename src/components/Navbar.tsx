@@ -4,29 +4,53 @@ import Link from "next/link";
 import { useTheme } from "@/context/ThemeContext";
 import styles from "./Navbar.module.css";
 import React from 'react';
+import {
+    Search,
+    X,
+    FileText,
+    Palette,
+    BookOpen,
+    Cpu,
+    Globe,
+    Briefcase,
+    Layout
+} from 'lucide-react';
 
 const SEARCH_ITEMS = [
-    { title: "The Future of Writing", href: "/blog/future-of-writing", icon: "📝", meta: "5 min read", rating: 4.8 },
-    { title: "Minimalism in Design", href: "/blog/minimalism-in-design", icon: "🎨", meta: "7 min read", rating: 4.9 },
-    { title: "Cultivating Deep Reading", href: "/blog/reading-habits", icon: "📚", meta: "4 min read", rating: 4.7 },
-    { title: "Sustainable Architecture", href: "/blog/modern-architecture", icon: "🏗️", meta: "6 min read", rating: 4.6 },
-    { title: "Technology", href: "/category/technology", icon: "💻", meta: "120 Stories" },
-    { title: "Design", href: "/category/design", icon: "🎨", meta: "85 Stories" },
-    { title: "Culture", href: "/category/culture", icon: "🌍", meta: "64 Stories" },
-    { title: "Business", href: "/category/business", icon: "💼", meta: "92 Stories" },
+    { title: "The Future of Writing", href: "/blog/future-of-writing", icon: <FileText size={20} />, meta: "5 min read", rating: 4.8 },
+    { title: "Minimalism in Design", href: "/blog/minimalism-in-design", icon: <Palette size={20} />, meta: "7 min read", rating: 4.9 },
+    { title: "Cultivating Deep Reading", href: "/blog/reading-habits", icon: <BookOpen size={20} />, meta: "4 min read", rating: 4.7 },
+    { title: "Sustainable Architecture", href: "/blog/modern-architecture", icon: <Layout size={20} />, meta: "6 min read", rating: 4.6 },
+    { title: "Technology", href: "/category/technology", icon: <Cpu size={20} />, meta: "120 Stories" },
+    { title: "Design", href: "/category/design", icon: <Palette size={20} />, meta: "85 Stories" },
+    { title: "Culture", href: "/category/culture", icon: <Globe size={20} />, meta: "64 Stories" },
+    { title: "Business", href: "/category/business", icon: <Briefcase size={20} />, meta: "92 Stories" },
 ];
 
 interface NavbarProps {
     fullWidth?: boolean;
+    isAdmin?: boolean;
 }
 
-export default function Navbar({ fullWidth = false }: NavbarProps) {
+export default function Navbar({ fullWidth = false, isAdmin = false }: NavbarProps) {
     const { theme, setTheme, readingIntensity, setReadingIntensity } = useTheme();
     const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
+
+    // ... (keep search logic the same) ...
+    // Note: I need to accept that I can't skip the search logic lines in the middle if I'm replacing the top part and bottom part?
+    // Actually, avoiding large replacements is better. I will split this into chunks.
+
+    // Chunk 1: Interface and Destructuring will be done in separate tool call if I wasn't using ReplaceFileContent.
+    // But I will try to target specific blocks.
+
+    // Wait, the Instruction says "Add isAdmin prop...".
+    // I can replacing the Interface and Component definition first.
+
 
     // Search State
     const [searchQuery, setSearchQuery] = React.useState("");
     const [isSearchFocused, setIsSearchFocused] = React.useState(false);
+    const [searchFilter, setSearchFilter] = React.useState<'all' | 'posts' | 'topics'>('all'); // Filter State
     const searchRef = React.useRef<HTMLDivElement>(null);
 
     // Handle click outside to close search
@@ -43,6 +67,23 @@ export default function Navbar({ fullWidth = false }: NavbarProps) {
         };
     }, []);
 
+    // Filter Logic
+    const getFilteredItems = () => {
+        return SEARCH_ITEMS.filter(item => {
+            const matchesSearch = item.title.toLowerCase().includes(searchQuery.toLowerCase());
+
+            if (!matchesSearch) return false;
+
+            if (searchFilter === 'all') return true;
+            if (searchFilter === 'posts') return !item.href.includes('/category/'); // Exclude topics
+            if (searchFilter === 'topics') return item.href.includes('/category/'); // Only topics
+
+            return true;
+        });
+    };
+
+    const filteredItems = getFilteredItems();
+
     // Lock body scroll when menu is open
     React.useEffect(() => {
         if (isMobileMenuOpen) {
@@ -57,25 +98,22 @@ export default function Navbar({ fullWidth = false }: NavbarProps) {
             <div className={fullWidth ? styles.fullContainer : `container ${styles.container}`}>
                 <div className={styles.topBar}>
                     <Link href="/" className={styles.logo}>
-                        <img src="/inkwise.png" alt="Inkwise Logo" className={styles.logoImage} />
-                        Inkwise<span className={styles.dot}>.</span>
+                        <img src="/inkwise.png" alt="Pensieri Logo" className={styles.logoImage} />
+                        Pensieri<span className={styles.dot}>.</span>
                     </Link>
 
                     {/* Desktop Nav Items */}
                     <div className={styles.desktopNav}>
                         <div className={styles.links}>
                             <Link href="/" className={styles.link}>Explore</Link>
-                            <Link href="/about" className={styles.link}>About</Link>
+                            {!isAdmin && <Link href="/about" className={styles.link}>About</Link>}
                             <Link href="/admin" className={styles.link}>Admin</Link>
                         </div>
 
                         {/* Search Bar */}
                         <div className={styles.searchContainer} ref={searchRef}>
                             <div className={styles.searchInputWrapper}>
-                                <svg className={styles.searchIcon} width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                    <circle cx="11" cy="11" r="8"></circle>
-                                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                                </svg>
+                                <Search className={styles.searchIcon} size={16} />
                                 <input
                                     type="text"
                                     className={styles.searchInput}
@@ -86,10 +124,7 @@ export default function Navbar({ fullWidth = false }: NavbarProps) {
                                 />
                                 {searchQuery && (
                                     <button className={styles.searchClearBtn} onClick={() => setSearchQuery('')}>
-                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                            <line x1="18" y1="6" x2="6" y2="18"></line>
-                                            <line x1="6" y1="6" x2="18" y2="18"></line>
-                                        </svg>
+                                        <X size={14} />
                                     </button>
                                 )}
                             </div>
@@ -97,19 +132,41 @@ export default function Navbar({ fullWidth = false }: NavbarProps) {
                             {/* Dropdown Results */}
                             {isSearchFocused && (
                                 <div className={styles.searchDropdown}>
-                                    {!searchQuery ? (
-                                        /* Default View (No Query) */
+
+                                    {/* Filter Pills (Always visible when focused) */}
+                                    <div className={styles.filterPills}>
+                                        <button
+                                            className={`${styles.filterPill} ${searchFilter === 'all' ? styles.active : ''}`}
+                                            onClick={() => setSearchFilter('all')}
+                                        >
+                                            All
+                                        </button>
+                                        <button
+                                            className={`${styles.filterPill} ${searchFilter === 'posts' ? styles.active : ''}`}
+                                            onClick={() => setSearchFilter('posts')}
+                                        >
+                                            Stories
+                                        </button>
+                                        <button
+                                            className={`${styles.filterPill} ${searchFilter === 'topics' ? styles.active : ''}`}
+                                            onClick={() => setSearchFilter('topics')}
+                                        >
+                                            Topics
+                                        </button>
+                                    </div>
+
+                                    {!searchQuery && searchFilter === 'all' ? (
+                                        /* Default View (No Query & No specific filter) */
                                         <>
                                             <div className={styles.dropdownHeader}>
                                                 <span>Recent</span>
-                                                <span style={{ cursor: 'pointer' }}>See all</span>
                                             </div>
 
                                             <div className={styles.dropdownSection}>
                                                 <div className={styles.sectionTitle}>Trending Articles</div>
                                                 <div className={styles.resultList}>
                                                     <Link href="/blog/future-of-writing" className={styles.resultItem}>
-                                                        <div className={styles.resultIcon}>📝</div>
+                                                        <div className={styles.resultIcon}><FileText size={20} /></div>
                                                         <div className={styles.resultContent}>
                                                             <div className={styles.resultTitle}>The Future of Writing</div>
                                                             <div className={styles.resultMeta}>
@@ -119,7 +176,7 @@ export default function Navbar({ fullWidth = false }: NavbarProps) {
                                                         </div>
                                                     </Link>
                                                     <Link href="/blog/minimalism-in-design" className={styles.resultItem}>
-                                                        <div className={styles.resultIcon}>🎨</div>
+                                                        <div className={styles.resultIcon}><Palette size={20} /></div>
                                                         <div className={styles.resultContent}>
                                                             <div className={styles.resultTitle}>Minimalism in Design</div>
                                                             <div className={styles.resultMeta}>
@@ -135,14 +192,14 @@ export default function Navbar({ fullWidth = false }: NavbarProps) {
                                                 <div className={styles.sectionTitle}>Topics</div>
                                                 <div className={styles.resultList}>
                                                     <div className={styles.resultItem}>
-                                                        <div className={styles.resultIcon}>💻</div>
+                                                        <div className={styles.resultIcon}><Cpu size={20} /></div>
                                                         <div className={styles.resultContent}>
                                                             <div className={styles.resultTitle}>Technology</div>
                                                             <div className={styles.resultMeta}>120 Stories</div>
                                                         </div>
                                                     </div>
                                                     <div className={styles.resultItem}>
-                                                        <div className={styles.resultIcon}>🌍</div>
+                                                        <div className={styles.resultIcon}><Globe size={20} /></div>
                                                         <div className={styles.resultContent}>
                                                             <div className={styles.resultTitle}>Culture</div>
                                                             <div className={styles.resultMeta}>64 Stories</div>
@@ -152,16 +209,14 @@ export default function Navbar({ fullWidth = false }: NavbarProps) {
                                             </div>
                                         </>
                                     ) : (
-                                        /* Filtered View (With Query) */
+                                        /* Filtered View (With Query OR with Filter active) */
                                         <div className={styles.dropdownSection}>
-                                            <div className={styles.sectionTitle}>Search Results</div>
+                                            <div className={styles.sectionTitle}>
+                                                {searchQuery ? 'Search Results' : `Filtered by ${searchFilter}`}
+                                            </div>
                                             <div className={styles.resultList}>
-                                                {SEARCH_ITEMS.filter(item =>
-                                                    item.title.toLowerCase().includes(searchQuery.toLowerCase())
-                                                ).length > 0 ? (
-                                                    SEARCH_ITEMS.filter(item =>
-                                                        item.title.toLowerCase().includes(searchQuery.toLowerCase())
-                                                    ).map((item, index) => (
+                                                {filteredItems.length > 0 ? (
+                                                    filteredItems.map((item, index) => (
                                                         <Link href={item.href} key={index} className={styles.resultItem}>
                                                             <div className={styles.resultIcon}>{item.icon}</div>
                                                             <div className={styles.resultContent}>
@@ -175,7 +230,7 @@ export default function Navbar({ fullWidth = false }: NavbarProps) {
                                                     ))
                                                 ) : (
                                                     <div style={{ padding: '2rem', textAlign: 'center', color: 'var(--text-secondary)' }}>
-                                                        No results found for &quot;{searchQuery}&quot;
+                                                        {searchQuery ? `No results for "${searchQuery}"` : 'No items found.'}
                                                     </div>
                                                 )}
                                             </div>
@@ -215,22 +270,26 @@ export default function Navbar({ fullWidth = false }: NavbarProps) {
                                     </button>
                                 </div>
                             </div>
-                            <Link href="/login" className={styles.loginBtn} title="Sign In">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                                    <circle cx="12" cy="7" r="4"></circle>
-                                </svg>
-                            </Link>
-                            <button className="btn btn-primary" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                    <path d="M18 8h1a4 4 0 0 1 0 8h-1"></path>
-                                    <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path>
-                                    <line x1="6" y1="1" x2="6" y2="4"></line>
-                                    <line x1="10" y1="1" x2="10" y2="4"></line>
-                                    <line x1="14" y1="1" x2="14" y2="4"></line>
-                                </svg>
-                                Buy Me Coffee
-                            </button>
+                            {!isAdmin && (
+                                <Link href="/login" className={styles.loginBtn} title="Sign In">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                        <circle cx="12" cy="7" r="4"></circle>
+                                    </svg>
+                                </Link>
+                            )}
+                            {!isAdmin && (
+                                <button className="btn btn-primary" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                        <path d="M18 8h1a4 4 0 0 1 0 8h-1"></path>
+                                        <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path>
+                                        <line x1="6" y1="1" x2="6" y2="4"></line>
+                                        <line x1="10" y1="1" x2="10" y2="4"></line>
+                                        <line x1="14" y1="1" x2="14" y2="4"></line>
+                                    </svg>
+                                    Buy Me Coffee
+                                </button>
+                            )}
                         </div>
                     </div>
 
@@ -248,7 +307,7 @@ export default function Navbar({ fullWidth = false }: NavbarProps) {
                 <div className={`${styles.mobileOverlay} ${isMobileMenuOpen ? styles.open : ''}`}>
                     <div className={styles.mobileHeader}>
                         <Link href="/" className={styles.logo} onClick={() => setIsMobileMenuOpen(false)}>
-                            Inkwise<span className={styles.dot}>.</span>
+                            Pensieri<span className={styles.dot}>.</span>
                         </Link>
                         <button
                             className={styles.closeBtn}
@@ -262,7 +321,7 @@ export default function Navbar({ fullWidth = false }: NavbarProps) {
                     <div className={styles.mobileContent}>
                         <nav className={styles.mobileNav}>
                             <Link href="/" className={styles.mobileLink} onClick={() => setIsMobileMenuOpen(false)}>Explore</Link>
-                            <Link href="/about" className={styles.mobileLink} onClick={() => setIsMobileMenuOpen(false)}>About</Link>
+                            {!isAdmin && <Link href="/about" className={styles.mobileLink} onClick={() => setIsMobileMenuOpen(false)}>About</Link>}
                             <Link href="/admin" className={styles.mobileLink} onClick={() => setIsMobileMenuOpen(false)}>Admin</Link>
                         </nav>
 
@@ -294,7 +353,7 @@ export default function Navbar({ fullWidth = false }: NavbarProps) {
                                     </div>
                                 )}
                             </div>
-                            <button className="btn btn-primary" style={{ width: '100%', padding: '1rem' }}>Subscribe</button>
+                            {!isAdmin && <button className="btn btn-primary" style={{ width: '100%', padding: '1rem' }}>Subscribe</button>}
                         </div>
                     </div>
                 </div>

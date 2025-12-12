@@ -5,6 +5,7 @@ import Link from 'next/link';
 import BlogCard from "@/components/BlogCard";
 import InteractionBar from "@/components/InteractionBar";
 import CommentSection from "@/components/CommentSection";
+import ReadingAssistant from "./ReadingAssistant";
 
 
 
@@ -16,7 +17,7 @@ const MOCK_DATA = [
         category: "Technology",
         date: "Dec 12, 2025",
         readTime: "5 min",
-        image: "https://picsum.photos/seed/inkwise1/1200/600"
+        image: "https://picsum.photos/seed/pensieri1/1200/600"
     },
     {
         slug: "minimalism-in-design",
@@ -25,7 +26,7 @@ const MOCK_DATA = [
         category: "Design",
         date: "Dec 10, 2025",
         readTime: "7 min",
-        image: "https://picsum.photos/seed/inkwise2/1200/600"
+        image: "https://picsum.photos/seed/pensieri2/1200/600"
     },
     {
         slug: "reading-habits",
@@ -34,7 +35,7 @@ const MOCK_DATA = [
         category: "Lifestyle",
         date: "Dec 08, 2025",
         readTime: "4 min",
-        image: "https://picsum.photos/seed/inkwise3/1200/600"
+        image: "https://picsum.photos/seed/pensieri3/1200/600"
     },
     {
         slug: "modern-architecture",
@@ -43,12 +44,15 @@ const MOCK_DATA = [
         category: "Architecture",
         date: "Dec 05, 2025",
         readTime: "6 min",
-        image: "https://picsum.photos/seed/inkwise4/1200/600"
+        image: "https://picsum.photos/seed/pensieri4/1200/600"
     }
 ];
 
 export default async function BlogPost({ params }: { params: Promise<{ slug: string }> }) {
     const { slug } = await params;
+
+    // Simulate slow network to show off the loader
+    await new Promise(resolve => setTimeout(resolve, 3000));
 
     const blog = MOCK_DATA.find(b => b.slug === slug) || MOCK_DATA[0];
     const suggested = MOCK_DATA.filter(b => b.slug !== slug).slice(0, 2);
@@ -111,6 +115,22 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
             </section>
 
             <CommentSection />
+
+            <ReadingAssistant
+                title={blog.title}
+                content={`
+                    ${blog.title} by Author Name. 
+                    ${blog.excerpt} 
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                    Subheading Section.
+                    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+                    Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                    "Good design is obvious. Great design is transparent." — Joe Sparano
+                    Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium,
+                    totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
+                `}
+            />
 
             <InteractionBar />
         </div>

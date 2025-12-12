@@ -55,7 +55,17 @@
     font-weight: 500;
     cursor: pointer;
     transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
 }
+
+/* Visibility toggles for responsive design */
+.backText {}
+
+.saveText {}
+
+.moreBtn {}
 
 .btnSecondary {
     background: transparent;
@@ -162,6 +172,25 @@
     outline: none;
     margin-bottom: 1.5rem;
     line-height: 1.2;
+}
+
+.smartTitleBtn {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    color: var(--accent, #6366f1);
+    cursor: pointer;
+    padding: 0.5rem;
+    opacity: 0.5;
+    transition: all 0.2s;
+}
+
+.smartTitleBtn:hover {
+    opacity: 1;
+    transform: translateY(-50%) scale(1.1);
 }
 
 .titleInput::placeholder {
@@ -444,6 +473,75 @@
     transition: background 0.2s;
 }
 
+/* Bubble Menu Divider */
+.bubbleDivider {
+    width: 1px;
+    background: rgba(255, 255, 255, 0.2);
+    margin: 0.25rem;
+}
+
+/* Refine Submenu */
+.refineMenu {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0 0.5rem;
+}
+
+.refineOption {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 0.4rem 0.8rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.refineOption:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.4);
+}
+
+.closeRefineBtn {
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.6);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    padding: 0.25rem;
+    margin-left: 0.25rem;
+}
+
+.closeRefineBtn:hover {
+    color: white;
+}
+
+.loadingText {
+    font-size: 0.85rem;
+    color: #a3a3a3;
+    padding: 0 0.5rem;
+    font-style: italic;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        opacity: 0.5;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0.5;
+    }
+}
+
 .bubbleBtn:hover {
     background: rgba(255, 255, 255, 0.1);
 }
@@ -522,4 +620,349 @@
 :global([data-theme='reading']) .toolbarBtn.active {
     background: rgba(74, 59, 50, 0.1);
     color: #4a3b32;
+}
+
+/* AI Floating Action Button */
+.aiFab {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #6366f1, #a855f7);
+    color: white;
+    border: none;
+    box-shadow: 0 4px 14px rgba(99, 102, 241, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 100;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.aiFab:hover {
+    transform: scale(1.1) rotate(5deg);
+    box-shadow: 0 6px 20px rgba(99, 102, 241, 0.6);
+}
+
+.aiFabIcon {
+    animation: float 3s ease-in-out infinite;
+}
+
+/* AI Modal */
+.aiModalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 0.2s ease-out;
+}
+
+.aiModal {
+    width: 90%;
+    max-width: 600px;
+    background: var(--bg-primary);
+    border-radius: 16px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+    border: 1px solid var(--border);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.aiModalHeader {
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--bg-secondary);
+}
+
+.aiModalTitle {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    font-size: 1.1rem;
+}
+
+.aiIconPulse {
+    color: #a855f7;
+    animation: pulse 2s infinite;
+}
+
+.aiModalBody {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.aiActions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.aiActionBtn {
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text-primary);
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.aiActionBtn:hover {
+    background: var(--bg-secondary);
+    border-color: #a855f7;
+    color: #a855f7;
+}
+
+.aiEditorArea {
+    position: relative;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    min-height: 200px;
+    background: var(--bg-card);
+}
+
+.aiTextarea {
+    width: 100%;
+    height: 200px;
+    padding: 1rem;
+    border: none;
+    background: transparent;
+    resize: none;
+    font-family: inherit;
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--text-primary);
+    outline: none;
+}
+
+.aiLoading {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(var(--bg-primary-rgb), 0.8);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    color: var(--text-secondary);
+    z-index: 10;
+}
+
+.aiModalFooter {
+    padding: 1.25rem 1.5rem;
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--bg-secondary);
+}
+
+.aiFooterRight {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.aiFooterLeft {
+    display: flex;
+    align-items: center;
+}
+
+.diffIndicator {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+/* Specific Modal Button Overrides */
+.aiModalFooter .btnSecondary {
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+    transition: all 0.2s;
+}
+
+.aiModalFooter .btnSecondary:hover {
+    background: var(--bg-card);
+    color: var(--text-primary);
+    border-color: var(--text-secondary);
+}
+
+.aiModalFooter .btnPrimary {
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    background: #10b981;
+    /* Emerald 500 */
+    color: white;
+    border: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    box-shadow: 0 4px 6px rgba(16, 185, 129, 0.2);
+    transition: all 0.2s;
+}
+
+.aiModalFooter .btnPrimary:hover {
+    background: #059669;
+    /* Emerald 600 */
+    transform: translateY(-1px);
+    box-shadow: 0 6px 12px rgba(16, 185, 129, 0.3);
+}
+
+.aiModalFooter .btnPrimary:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.iconBtn {
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+}
+
+.iconBtn:hover {
+    background: var(--bg-card);
+    color: var(--text-primary);
+}
+
+.spin {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-5px);
+    }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .header {
+        padding: 0.75rem 1rem;
+    }
+
+    .backText {
+        display: none !important;
+    }
+
+    .headerActions {
+        gap: 0.5rem;
+    }
+
+    /* .saveStatus visible on mobile now */
+
+    .saveText {
+        display: none !important;
+    }
+
+
+
+    .actionBtn {
+        padding: 0.4rem 0.6rem;
+        font-size: 0.85rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .editorContainer {
+        padding: 1.5rem 1rem 8rem;
+    }
+
+    .titleInput {
+        font-size: 2rem;
+    }
+
+    .metadata {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+
+    .tagInputContainer {
+        padding-left: 0;
+        border-left: none;
+        border-top: 1px solid var(--border);
+        padding-top: 1rem;
+        width: 100%;
+    }
+
+    .aiFab {
+        width: 50px;
+        height: 50px;
+        bottom: 1.5rem;
+        right: 1.5rem;
+    }
+
+    .aiModal {
+        width: 95%;
+        max-height: 90vh;
+    }
 }

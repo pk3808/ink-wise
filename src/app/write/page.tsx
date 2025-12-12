@@ -5,11 +5,12 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useTheme } from '@/context/ThemeContext';
 import styles from './page.module.css';
-import { ArrowLeft, Image as ImageIcon, MoreHorizontal, X } from 'lucide-react';
+import { ArrowLeft, Image as ImageIcon, MoreHorizontal, X, Sparkles, Save } from 'lucide-react';
 import EditorBlock from './EditorBlock';
 import Dropdown from './Dropdown';
 import BubbleMenu from './BubbleMenu';
 import FormattingToolbar from './FormattingToolbar';
+import AIModal from './AIModal';
 
 // Simple ID generator if uuid not available
 const uid = () => Date.now().toString(36) + Math.random().toString(36).substr(2);
@@ -40,6 +41,10 @@ export default function WritingPage() {
     const [tagInput, setTagInput] = useState('');
     const [coverImage, setCoverImage] = useState<string | null>(null);
     const [isSaving, setIsSaving] = useState(false);
+
+    // AI Modal State
+    const [isAIModalOpen, setIsAIModalOpen] = useState(false);
+    const [aiContextText, setAiContextText] = useState('');
 
     const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -99,43 +104,53 @@ export default function WritingPage() {
     };
 
     const updatePage = (id: string, html: string) => {
-        const newBlocks = blocks.map(b => b.id === id ? { ...b, html } : b);
-        setBlocks(newBlocks);
+        setBlocks(prev => prev.map(b => b.id === id ? { ...b, html } : b));
     };
 
     const addBlock = (currentId: string, ref: React.MutableRefObject<any>) => {
-        const newBlock = { id: uid(), html: '', tag: 'p' };
-        const index = blocks.findIndex(b => b.id === currentId);
+        const newId = uid();
+        setBlocks(prev => {
+            const index = prev.findIndex(b => b.id === currentId);
+            const newBlock = { id: newId, html: '', tag: 'p' };
+            const newBlocks = [...prev];
+            newBlocks.splice(index + 1, 0, newBlock);
+            return newBlocks;
+        });
 
-        const newBlocks = [...blocks];
-        newBlocks.splice(index + 1, 0, newBlock);
-        setBlocks(newBlocks);
-
-        // Focus next block logic
-        // Since we are setting state, we need to wait for render to focus.
-        // In a Production app, we'd use a more robust focus manager.
         setTimeout(() => {
-            const nextBlock = document.getElementById(newBlock.id); // We need to pass id to DOM in EditorBlock?
-            // Actually, we can rely on React refs if we managed them in parent, 
-            // but for dynamic lists, querySelector is easier for MVP.
-            // Let's modify EditorBlock to accept an ID for the wrapper or contentEditable
+            const nextEl = document.getElementById(`block-${newId}`);
+            if (nextEl) {
+                nextEl.focus();
+                setActiveBlockId(newId);
+            }
         }, 0);
     };
 
     const deleteBlock = (currentId: string, ref: React.MutableRefObject<any>) => {
-        const index = blocks.findIndex(b => b.id === currentId);
-        if (index > 0) {
-            const prevBlock = blocks[index - 1];
-            const currentBlock = blocks[index];
+        setBlocks(prev => {
+            const index = prev.findIndex(b => b.id === currentId);
+            if (index <= 0) return prev; // Avoid deleting first block if only one
 
-            // Merge content if previous block is same type (optional, strict for now just delete)
-            // Ideally: update prevBlock html += currentBlock html
-            const newBlocks = blocks.filter(b => b.id !== currentId);
-            setBlocks(newBlocks);
+            const prevBlock = prev[index - 1];
+            // Side effect: Focus previous
+            setTimeout(() => {
+                const prevEl = document.getElementById(`block-${prevBlock.id}`);
+                if (prevEl) {
+                    prevEl.focus();
 
-            // Focus previous
-            // setTimeout logic similar to add
-        }
+                    const range = document.createRange();
+                    const sel = window.getSelection();
+                    range.selectNodeContents(prevEl);
+                    range.collapse(false);
+                    sel?.removeAllRanges();
+                    sel?.addRange(range);
+
+                    setActiveBlockId(prevBlock.id);
+                }
+            }, 0);
+
+            return prev.filter(b => b.id !== currentId);
+        });
     };
 
     const toggleBlockType = (tag: string) => {
@@ -149,25 +164,25 @@ export default function WritingPage() {
     return (
         <div className={styles.container}>
             {/* Minimal Header */}
+            {/* Minimal Header */}
             <header className={styles.header}>
                 <Link href="/admin" className={styles.backBtn}>
                     <ArrowLeft size={20} />
-                    Back to Dashboard
+                    <span className={styles.backText}>Back to Dashboard</span>
                 </Link>
 
                 <div className={styles.headerActions}>
                     <span className={styles.saveStatus}>
                         {isSaving ? 'Saving...' : 'Saved'}
                     </span>
-                    <button className={`${styles.actionBtn} ${styles.btnSecondary}`}>
-                        Save Draft
+                    <button className={`${styles.actionBtn} ${styles.btnSecondary}`} title="Save Draft">
+                        <Save size={18} />
+                        <span className={styles.saveText}>Save Draft</span>
                     </button>
                     <button className={`${styles.actionBtn} ${styles.btnPrimary}`}>
                         Publish
                     </button>
-                    <button className={`${styles.actionBtn} ${styles.btnSecondary}`} style={{ padding: '0.5rem' }}>
-                        <MoreHorizontal size={20} />
-                    </button>
+
                 </div>
             </header>
 
@@ -203,13 +218,43 @@ export default function WritingPage() {
                 )}
 
                 {/* Title */}
-                <input
-                    type="text"
-                    className={styles.titleInput}
-                    placeholder="Article Title..."
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
-                />
+                <div style={{ position: 'relative' }}>
+                    <input
+                        type="text"
+                        className={styles.titleInput}
+                        placeholder="Article Title..."
+                        value={title}
+                        onChange={(e) => setTitle(e.target.value)}
+                    />
+                    {blocks.some(b => b.html.length > 50) && (
+                        <button
+                            className={styles.smartTitleBtn}
+                            onClick={async () => {
+                                const fullText = blocks.map(b => b.html).join('\n');
+                                try {
+                                    const res = await fetch('/api/generate', {
+                                        method: 'POST',
+                                        headers: { 'Content-Type': 'application/json' },
+                                        body: JSON.stringify({ type: 'title', content: fullText })
+                                    });
+                                    const data = await res.json();
+                                    if (data.result) {
+                                        // Pick the first line of result as title
+                                        const suggestions = data.result.split('\n');
+                                        if (suggestions[0]) setTitle(suggestions[0].replace(/['"]/g, ''));
+                                        // Optional: show others? For now just pick first.
+                                    }
+                                } catch (e) {
+                                    console.error(e);
+                                    alert("Could not generate title");
+                                }
+                            }}
+                            title="Generate Smart Title"
+                        >
+                            <Sparkles size={18} />
+                        </button>
+                    )}
+                </div>
 
                 {/* Metadata Settings */}
                 <div className={styles.metadata}>
@@ -245,6 +290,7 @@ export default function WritingPage() {
                 />
 
                 {/* Blocks */}
+                {/* Blocks */}
                 {blocks.map((block, index) => (
                     <EditorBlock
                         key={block.id}
@@ -259,6 +305,60 @@ export default function WritingPage() {
                     />
                 ))}
             </main>
+
+            {/* AI FAB */}
+            <button
+                className={styles.aiFab}
+                onClick={() => {
+                    // Logic to grab text:
+                    // 1. Selection
+                    const selection = window.getSelection()?.toString();
+                    if (selection && selection.length > 5) {
+                        setAiContextText(selection);
+                        setIsAIModalOpen(true);
+                        return;
+                    }
+
+                    // 2. Active Block
+                    const active = blocks.find(b => b.id === activeBlockId);
+                    if (active && active.html.length > 10) {
+                        setAiContextText(active.html.replace(/<[^>]*>?/gm, '')); // Strip HTML for AI
+                        setIsAIModalOpen(true);
+                        return;
+                    }
+
+                    // 3. Fallback: Full draft (limit for now)
+                    alert("Please select some text or write a paragraph first!");
+                }}
+                title="Open AI Assistant"
+            >
+                <Sparkles size={24} className={styles.aiFabIcon} />
+            </button>
+
+            {isAIModalOpen && (
+                <AIModal
+                    originalText={aiContextText}
+                    fullText={blocks.map(b => b.html).join('\n')}
+                    onClose={() => setIsAIModalOpen(false)}
+                    onTitleSelect={(newTitle) => setTitle(newTitle)}
+                    onReplace={(newText) => {
+                        // Replace logic
+                        // If we selected text, execCommand is best
+                        // But if we lost selection (modal opened), we might need to rely on block update
+                        // Simplify: If opened from Block, update Block.
+
+                        // For MVP: Re-focus and insert if selection existed, else update block
+                        setIsAIModalOpen(false);
+
+                        // Try block update first if no selection range preserved
+                        if (activeBlockId) {
+                            // Simple replace of block content for now (User agreed to "Refine Content")
+                            // Ideally we'd map back to selection but that's complex for this step
+                            updatePage(activeBlockId, newText);
+                        }
+                    }}
+                />
+            )}
         </div>
     );
 }

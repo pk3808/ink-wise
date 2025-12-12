@@ -18,7 +18,7 @@ const merriweather = Merriweather({
 });
 
 export const metadata: Metadata = {
-  title: "Inkwise | Read, Write, Inspire",
+  title: "Pensieri | Read, Write, Inspire",
   description: "A modern platform for thinkers and readers.",
   icons: {
     icon: '/inkwise.png',

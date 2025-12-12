@@ -1,7 +1,7 @@
 .card {
     display: flex;
     flex-direction: column;
-    height: 100%;
+    /* height: 100%;  <-- Removed for masonry nature */
     background: var(--bg-card);
     border-radius: 20px;
     border: 1px solid rgba(0, 0, 0, 0.05);
@@ -18,7 +18,7 @@
 
 .imageWrapper {
     width: 100%;
-    aspect-ratio: 4/3;
+    /* aspect-ratio: 4/3; Removed to allow dynamic image heights */
     height: auto;
     background-color: var(--bg-secondary);
     overflow: hidden;

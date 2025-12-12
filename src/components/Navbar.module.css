@@ -125,17 +125,20 @@
     justify-content: center;
     padding: 0.5rem 1rem;
     border: 1px solid var(--border);
-    border-radius: 20px;
-    background: var(--bg-secondary);
+    border-radius: 50px;
+    /* Pill shape */
+    background: transparent;
     color: var(--text-primary);
     font-weight: 600;
     font-size: 0.9rem;
     cursor: pointer;
     transition: all 0.2s;
+    font-family: var(--font-serif);
+    /* Use Serif to match brand */
 }
 
 .mobileToggle:hover {
-    background: var(--bg-card);
+    background: var(--bg-secondary);
 }
 
 /* Theme Controls */
@@ -365,8 +368,14 @@
 
 /* Media Queries */
 @media (max-width: 768px) {
-    .desktopNav {
+
+    .desktopNav,
+    .actions {
         display: none;
+    }
+
+    .topBar {
+        justify-content: space-between;
     }
 
     .mobileToggle {
@@ -560,4 +569,44 @@
     display: flex;
     align-items: center;
     gap: 0.2rem;
+}
+
+/* Search Filters Refined */
+.filterPills {
+    display: flex;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem 0;
+    overflow-x: auto;
+    background: transparent;
+    margin-bottom: 0.5rem;
+    align-items: center;
+}
+
+.filterPill {
+    padding: 0.4rem 1rem;
+    border-radius: 50px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s;
+    flex-shrink: 0;
+}
+
+.filterPill:hover {
+    background: var(--bg-secondary-hover, #e5e7eb);
+    color: var(--text-primary);
+}
+
+.filterPill.active {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+}
+
+[data-theme='dark'] .filterPill.active {
+    color: #000;
 }

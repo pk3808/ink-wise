@@ -19,8 +19,8 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
     useEffect(() => {
         // Check local storage or preference
-        const storedTheme = localStorage.getItem("inkwise-theme") as Theme;
-        const storedIntensity = localStorage.getItem("inkwise-reading-intensity");
+        const storedTheme = localStorage.getItem("pensieri-theme") as Theme;
+        const storedIntensity = localStorage.getItem("pensieri-reading-intensity");
 
         if (storedTheme) {
             setTheme(storedTheme);
@@ -37,14 +37,14 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
         // Apply theme to document
         const root = document.documentElement;
         root.setAttribute("data-theme", theme);
-        localStorage.setItem("inkwise-theme", theme);
+        localStorage.setItem("pensieri-theme", theme);
     }, [theme]);
 
     useEffect(() => {
         // Apply intensity variable
         const root = document.documentElement;
         root.style.setProperty("--reading-intensity", `${readingIntensity}%`);
-        localStorage.setItem("inkwise-reading-intensity", readingIntensity.toString());
+        localStorage.setItem("pensieri-reading-intensity", readingIntensity.toString());
     }, [readingIntensity]);
 
     return (

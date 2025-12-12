@@ -45,11 +45,12 @@
     height: 32px;
 }
 
+/* Sidebar Header */
+/* Sidebar Header */
 .brandTitle {
     font-size: 1.25rem;
     font-weight: 700;
-    color: #b45309;
-    /* Golden/Bronze tone like reference */
+    color: var(--text-primary);
     white-space: nowrap;
     overflow: hidden;
 }
@@ -104,10 +105,11 @@
 }
 
 .navItem.active {
-    background-color: #cb9b51;
-    /* Button Active Color */
-    color: #ffffff;
-    box-shadow: 0 4px 6px -1px rgba(203, 155, 81, 0.2);
+    background-color: var(--text-primary);
+    /* Ink Black */
+    color: var(--bg-primary);
+    /* White text */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 /* Sidebar Footer / User */
@@ -221,25 +223,30 @@
 
 /* Banner */
 .banner {
-    background-color: rgba(255, 251, 235, 0.5);
-    /* #fffbeb with opacity for dark mode blend? */
-    border: 1px solid #fcd34d;
+    background-color: var(--bg-card);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--primary);
+    /* Accent border instead of full yellow */
     border-radius: 12px;
-    padding: 1.25rem 1.5rem;
+    padding: 1.5rem;
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: 1.5rem;
     margin-bottom: 2.5rem;
+    box-shadow: var(--shadow);
 }
 
 [data-theme='dark'] .banner {
-    background-color: rgba(252, 211, 77, 0.1);
-    border-color: rgba(252, 211, 77, 0.3);
+    background-color: var(--bg-card);
+    border-color: var(--border);
+    border-left-color: var(--primary);
 }
 
 
 .bannerIcon {
     flex-shrink: 0;
+    color: var(--primary);
+    /* Use primary Instead of orange */
 }
 
 .bannerContent {
@@ -247,39 +254,41 @@
 }
 
 .bannerContent h3 {
-    font-size: 1rem;
+    font-size: 1.1rem;
     font-weight: 700;
-    color: #92400e;
+    color: var(--text-primary);
     margin-bottom: 0.25rem;
 }
 
 [data-theme='dark'] .bannerContent h3 {
-    color: #fcd34d;
+    color: var(--text-primary);
 }
 
 .bannerContent p {
-    font-size: 0.9rem;
-    color: #b45309;
+    font-size: 0.95rem;
+    color: var(--text-secondary);
 }
 
 [data-theme='dark'] .bannerContent p {
-    color: #fbbf24;
+    color: var(--text-secondary);
 }
 
 .bannerBtn {
-    background-color: #f59e0b;
-    color: white;
+    background-color: var(--primary);
+    color: var(--bg-primary);
     border: none;
-    padding: 0.6rem 1.2rem;
-    border-radius: 8px;
+    padding: 0.75rem 1.5rem;
+    border-radius: 50px;
+    /* Pill shape */
     font-weight: 600;
     font-size: 0.9rem;
     cursor: pointer;
-    transition: background 0.2s;
+    transition: transform 0.2s, opacity 0.2s;
 }
 
 .bannerBtn:hover {
-    background-color: #d97706;
+    opacity: 0.9;
+    transform: translateY(-1px);
 }
 
 /* Stats Grid */
@@ -436,23 +445,373 @@
     }
 }
 
+/* Mobile Admin Sidebar Refactor */
+.mobileMenuBtn {
+    display: none;
+}
+
+.mobileOverlay {
+    display: none;
+}
+
+.pastedMobileCloseBtn {
+    display: none;
+}
+
 @media (max-width: 768px) {
     .main {
         flex-direction: column;
+        position: relative;
     }
 
-    .sidebar {
+    /* Mobile Toggle Button */
+    .mobileMenuBtn {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.75rem 1rem;
+        background: var(--bg-card);
+        border: none;
+        border-bottom: 1px solid var(--border);
+        color: var(--text-primary);
+        font-weight: 600;
+        cursor: pointer;
         width: 100%;
-        height: auto;
-        position: relative;
-        padding: 1rem;
+        position: sticky;
+        top: 0;
+        z-index: 40;
+    }
+
+    /* Overlay */
+    .mobileOverlay {
+        display: block;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 90;
+        /* Below sidebar, above content */
+        animation: fadeIn 0.2s ease;
+    }
+
+    /* Sidebar Drawer */
+    .sidebar {
+        position: fixed;
+        top: 0;
+        left: -280px;
+        /* Hide off-screen */
+        width: 280px;
+        height: 100vh;
+        z-index: 100;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+        transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        transform: translateX(0);
+        padding-top: 1rem;
+    }
+
+    .mobileOpen {
+        transform: translateX(280px);
+    }
+
+    .pastedMobileCloseBtn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--bg-secondary);
+        border: none;
+        padding: 6px;
+        border-radius: 6px;
+        color: var(--text-secondary);
+        cursor: pointer;
+    }
+
+    .collapseBtn {
+        display: none;
+        /* Hide desktop collapse btn on mobile */
     }
 
     .content {
-        padding: 1.5rem;
+        padding: 1rem;
     }
 
     .actionsGrid {
         grid-template-columns: repeat(2, 1fr);
     }
+}
+
+
+
+/* Scrollable Content Wrapper */
+.scrollableContent {
+    flex: 1;
+    overflow-y: auto;
+    /* Ensure only this part scrolls if needed, though main handles it too */
+}
+
+/* Post Manager Styles */
+.managerContainer {
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.tableCard {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.dataTable {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+}
+
+.dataTable th {
+    text-align: left;
+    padding: 1rem 1.5rem;
+    background-color: var(--bg-secondary);
+    color: var(--text-secondary);
+    font-weight: 600;
+    border-bottom: 1px solid var(--border);
+}
+
+.dataTable td {
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-primary);
+    vertical-align: middle;
+}
+
+.dataTable tr:last-child td {
+    border-bottom: none;
+}
+
+.dataTable tr:hover {
+    background-color: var(--bg-secondary);
+}
+
+.highlightRow {
+    background-color: rgba(255, 251, 235, 0.5);
+    /* Light amber tint */
+}
+
+[data-theme='dark'] .highlightRow {
+    background-color: rgba(251, 191, 36, 0.1);
+}
+
+/* Filter Controls */
+.filterControls {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.searchWrapper {
+    position: relative;
+    flex: 1;
+    min-width: 250px;
+}
+
+.searchIcon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-secondary);
+    pointer-events: none;
+}
+
+.filterInput {
+    width: 100%;
+    padding: 0.6rem 1rem 0.6rem 2.5rem;
+    /* Space for icon */
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--bg-card);
+    color: var(--text-primary);
+    font-size: 0.9rem;
+    transition: all 0.2s;
+}
+
+.filterInput:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(var(--primary-rgb), 0.1);
+}
+
+.filterSelect {
+    padding: 0.6rem 1rem;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--bg-card);
+    color: var(--text-primary);
+    font-size: 0.9rem;
+    cursor: pointer;
+    min-width: 150px;
+}
+
+.filterSelect:focus {
+    outline: none;
+    border-color: var(--primary);
+}
+
+/* Cell Content */
+.titleCell {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    max-width: 350px;
+}
+
+.titleContent {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+
+.postTitle {
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.postExcerpt {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 250px;
+}
+
+.featuredBadge {
+    background-color: var(--primary);
+    /* Black/Brand */
+    color: var(--bg-primary);
+    /* White */
+    font-size: 0.7rem;
+    padding: 2px 8px;
+    border-radius: 50px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.categoryTag {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    background-color: var(--bg-secondary);
+    border-radius: 50px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    border: 1px solid var(--border);
+}
+
+.dateCell {
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+}
+
+.statusBadge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.25rem 0.75rem;
+    background-color: var(--bg-secondary);
+    /* Default gray */
+    color: var(--text-secondary);
+    border-radius: 50px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+/* Specific Status Colors */
+.publishedBadge {
+    background-color: #dcfce7;
+    color: #166534;
+}
+
+[data-theme='dark'] .publishedBadge {
+    background-color: rgba(22, 163, 74, 0.2);
+    color: #4ade80;
+}
+
+/* Replaces the inline mustard style */
+.draftBadge {
+    background-color: #f3f4f6;
+    /* Neutral Gray for Draft */
+    color: #4b5563;
+    border: 1px dashed #d1d5db;
+    /* Dashed border for draft feel */
+}
+
+[data-theme='dark'] .draftBadge {
+    background-color: rgba(255, 255, 255, 0.05);
+    color: #9ca3af;
+    border-color: #4b5563;
+}
+
+/* Action Buttons */
+.actionButtons {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.iconBtn {
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    padding: 6px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.iconBtn:hover {
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+}
+
+.activeStar {
+    color: #f59e0b !important;
+}
+
+.deleteBtn:hover {
+    background-color: #fef2f2;
+    color: #ef4444;
+}
+
+[data-theme='dark'] .deleteBtn:hover {
+    background-color: rgba(239, 68, 68, 0.1);
+}
+
+/* Empty State */
+.emptyState {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 4rem;
+    color: var(--text-secondary);
+    gap: 1rem;
+    text-align: center;
 }

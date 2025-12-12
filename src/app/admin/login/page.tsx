@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import styles from './page.module.css';
+import BrandedLoader from '@/components/BrandedLoader';
 
 export default function AdminLogin() {
     const [email, setEmail] = useState('');
@@ -15,18 +16,21 @@ export default function AdminLogin() {
         e.preventDefault();
         setLoading(true);
 
-        // Mock authentication logic
-        // In a real app, this would be an API call
+        // Mock authentication logic with 5s delay for Loader Demo
         setTimeout(() => {
-            if (email === 'admin@inkwise.com' && password === 'admin') {
-                localStorage.setItem('inkwise-admin-auth', 'true');
+            if (email === 'admin@pensieri.com' && password === 'admin') {
+                localStorage.setItem('pensieri-admin-auth', 'true');
                 router.push('/admin');
             } else {
-                alert('Invalid credentials. Try admin@inkwise.com / admin');
+                alert('Invalid credentials. Try admin@pensieri.com / admin');
                 setLoading(false);
             }
-        }, 1000);
+        }, 5000);
     };
+
+    if (loading) {
+        return <BrandedLoader text="Authenticating..." fullScreen />;
+    }
 
     return (
         <main className={styles.container}>
@@ -40,8 +44,8 @@ export default function AdminLogin() {
             <div className={styles.loginCard}>
                 <div className={styles.header}>
                     <Link href="/" className={styles.logo}>
-                        <img src="/inkwise.png" alt="Inkwise Logo" className={styles.logoImage} />
-                        Inkwise<span className={styles.dot}>.</span>
+                        <img src="/inkwise.png" alt="Pensieri Logo" className={styles.logoImage} />
+                        Pensieri<span className={styles.dot}>.</span>
                     </Link>
                     <h1 className={styles.title}>Admin Login</h1>
                     <p className={styles.subtitle}>Enter your credentials to access the dashboard.</p>

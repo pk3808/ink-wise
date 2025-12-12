@@ -1,0 +1,174 @@
+.footer {
+    background-color: var(--bg-card);
+    border-top: 1px solid var(--border);
+    padding: 4rem 0 2rem;
+    margin-top: 4rem;
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4rem;
+    margin-bottom: 3rem;
+}
+
+/* Brand Column */
+.brandCol {
+    flex: 1;
+    min-width: 280px;
+    max-width: 350px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    font-weight: 700;
+    font-size: 1.25rem;
+    font-family: var(--font-serif);
+    color: var(--text-primary);
+}
+
+.logoIcon {
+    color: var(--primary, #6366f1);
+    font-size: 1.5rem;
+    line-height: 1;
+}
+
+.tagline {
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+    opacity: 0.8;
+}
+
+.socials {
+    display: flex;
+    gap: 1rem;
+}
+
+.socialLink {
+    color: var(--text-secondary);
+    transition: all 0.2s;
+    padding: 0.5rem;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.socialLink:hover {
+    background: var(--bg-secondary);
+    color: var(--primary, #6366f1);
+    border-color: var(--primary, #6366f1);
+    transform: translateY(-2px);
+}
+
+/* Links Columns */
+.linksWrapper {
+    flex: 2;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 3rem;
+    justify-content: space-between;
+}
+
+.linkCol {
+    min-width: 140px;
+}
+
+.colTitle {
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 1.25rem;
+    color: var(--text-primary);
+}
+
+.linkList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.linkList a {
+    text-decoration: none;
+    color: var(--text-secondary);
+    transition: color 0.2s;
+    font-size: 0.95rem;
+}
+
+.linkList a:hover {
+    color: var(--primary, #6366f1);
+}
+
+/* Bottom Section */
+.bottom {
+    border-top: 1px solid var(--border);
+    padding-top: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.copyright {
+    font-size: 0.85rem;
+}
+
+.madeWith {
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.heart {
+    color: #ef4444;
+    fill: #ef4444;
+    animation: pulse 1.5s ease infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.2);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+@media (max-width: 768px) {
+    .grid {
+        flex-direction: column;
+        gap: 2.5rem;
+    }
+
+    .linksWrapper {
+        gap: 2rem;
+    }
+
+    .bottom {
+        flex-direction: column;
+        text-align: center;
+    }
+}

@@ -619,10 +619,16 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
+/* Masonry Layout */
 .grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 3rem;
+  column-count: 3;
+  column-gap: 2rem;
+}
+
+/* Ensure cards don't split across columns */
+.grid>div {
+  break-inside: avoid;
+  margin-bottom: 2rem;
 }
 
 @media (max-width: 1024px) {
@@ -636,13 +642,13 @@
   }
 
   .grid {
-    grid-template-columns: repeat(2, 1fr);
+    column-count: 2;
   }
 }
 
 @media (max-width: 768px) {
   .grid {
-    grid-template-columns: 1fr;
+    column-count: 1;
   }
 }
 
@@ -660,20 +666,189 @@
 @media (max-width: 768px) {
   .hero {
     min-height: auto;
-    padding: 6rem 0 4rem;
+    padding: 6rem 0 2rem;
+    overflow: visible;
+    /* Allow cards to show if they overflow */
   }
 
   .heroTitle {
     font-size: 2.5rem;
   }
 
-  .floatCard {
+  /* Restore Floating Cards as Carousel on Mobile */
+  .floatingCards {
+    position: relative;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    overflow-x: auto;
+    padding: 1rem 1.5rem 2rem 1.5rem;
+    /* Better padding */
+    margin-top: 2rem;
+    width: auto;
+    /* Reset width */
+    margin-left: -1.5rem;
+    /* Negative margin to pull to edge */
+    margin-right: -1.5rem;
+    /* Negative margin to pull to edge */
+    left: auto;
+    transform: none;
+    pointer-events: auto;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+    z-index: 20;
+    /* Ensure on top */
+  }
+
+  /* Ensure container doesn't clip */
+  .heroContainer {
+    overflow: visible;
+  }
+
+  /* Hide scrollbar */
+  .floatingCards::-webkit-scrollbar {
     display: none;
-    /* Hide floating cards on mobile to avoid clutter */
+  }
+
+  .floatCard {
+    display: block;
+    position: relative;
+    min-width: 260px;
+    /* Slightly wider */
+    opacity: 1 !important;
+    transform: none !important;
+    /* Reset rotation */
+    top: auto !important;
+    left: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+    scroll-snap-align: center;
+    margin: 0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    /* Stronger shadow */
+    background: var(--bg-card);
+    /* Ensure background is set */
   }
 
   .heroContent {
     padding: 1rem;
     background: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
+}
+
+/* Trending Section */
+.trendingSection {
+  padding: 5rem 0;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-secondary);
+}
+
+.trendingGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 2rem;
+}
+
+.trendingCard {
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+  background: var(--bg-card);
+  padding: 1.5rem;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02);
+}
+
+.trendingCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+  border-color: var(--primary);
+}
+
+.trendingCardContent {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex: 1;
+  padding-right: 1.5rem;
+  z-index: 2;
+}
+
+.trendingHeader {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.trendingNumber {
+  font-family: var(--font-serif);
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: var(--primary);
+  opacity: 0.8;
+  line-height: 1;
+}
+
+.trendingUser {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.trendingAvatarSmall {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--text-secondary);
+  opacity: 0.3;
+}
+
+.trendingTitle {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.4;
+  margin-bottom: 0.5rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  transition: color 0.2s;
+}
+
+.trendingCard:hover .trendingTitle {
+  color: var(--primary);
+}
+
+.trendingMeta {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.trendingImage {
+  width: 100px;
+  height: 100px;
+  border-radius: 12px;
+  object-fit: cover;
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.trendingCard:hover .trendingImage {
+  transform: scale(1.05);
 }

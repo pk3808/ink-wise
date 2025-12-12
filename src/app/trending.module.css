@@ -1,0 +1,77 @@
+/* Trending Section */
+.trendingSection {
+    padding: 4rem 0;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg-secondary);
+}
+
+.trendingGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2.5rem;
+}
+
+.trendingCard {
+    display: flex;
+    gap: 1.5rem;
+    align-items: flex-start;
+    text-decoration: none;
+    group: 1;
+}
+
+.trendingNumber {
+    font-family: var(--font-serif);
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--border);
+    /* Subtle text color */
+    line-height: 1;
+    transition: color 0.3s;
+}
+
+.trendingCard:hover .trendingNumber {
+    color: var(--primary, #6366f1);
+}
+
+.trendingContent {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.trendingAuthor {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.trendingAvatar {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--text-secondary);
+    /* Placeholder color */
+}
+
+.trendingTitle {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    line-height: 1.4;
+    transition: color 0.2s;
+}
+
+.trendingCard:hover .trendingTitle {
+    color: var(--text-primary);
+    /* Keep text primary on hover, maybe slight opacity change if needed? or no change */
+    text-decoration: underline;
+    text-decoration-color: var(--primary);
+}
+
+.trendingMeta {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}

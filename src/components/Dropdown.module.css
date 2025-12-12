@@ -1,0 +1,117 @@
+/* Custom Dropdown Styles */
+.dropdownContainer {
+    position: relative;
+    min-width: 180px;
+}
+
+.dropdownTrigger {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 0.6rem 1rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    /* Matched Admin Input Radius */
+    color: var(--text-primary);
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+    width: 100%;
+}
+
+.dropdownTrigger:hover,
+.dropdownTrigger.open {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(var(--primary-rgb), 0.1);
+}
+
+.dropdownArrow {
+    color: var(--text-secondary);
+    transition: transform 0.2s;
+}
+
+.dropdownTrigger.open .dropdownArrow {
+    transform: rotate(180deg);
+}
+
+.dropdownMenu {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    width: 100%;
+    /* Match container width */
+    min-width: 200px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    z-index: 100;
+    padding: 0.5rem;
+    overflow: hidden;
+    animation: fadeIn 0.1s ease-out;
+}
+
+.dropdownSearch {
+    padding: 0.5rem;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 0.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-secondary);
+}
+
+.dropdownSearchInput {
+    background: transparent;
+    border: none;
+    outline: none;
+    width: 100%;
+    color: var(--text-primary);
+    font-size: 0.9rem;
+}
+
+.dropdownList {
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.dropdownItem {
+    padding: 0.6rem 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: all 0.15s;
+}
+
+.dropdownItem:hover,
+.dropdownItem.selected {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+}
+
+.dropdownEmpty {
+    padding: 1rem;
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

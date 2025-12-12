@@ -34,8 +34,8 @@ export default function Register() {
                 {/* LEFT SIDE: Brand */}
                 <div className={styles.brandSection}>
                     <Link href="/" className={styles.logo}>
-                        <img src="/inkwise.png" alt="Inkwise Logo" className={styles.logoImage} />
-                        Inkwise<span className={styles.dot}>.</span>
+                        <img src="/inkwise.png" alt="Pensieri Logo" className={styles.logoImage} />
+                        Pensieri<span className={styles.dot}>.</span>
                     </Link>
                     <h1 className={styles.brandTitle}>Join the Club.</h1>
                     <p className={styles.brandSubtitle}>
