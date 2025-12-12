@@ -53,7 +53,7 @@ export default function EditorBlock({
         }
     };
 
-    const Tag = tag as keyof JSX.IntrinsicElements;
+
 
     return (
         <div className={styles.blockWrapper}>
