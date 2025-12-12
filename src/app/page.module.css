@@ -334,115 +334,180 @@
 /* Newsletter Section */
 .newsletterSection {
   padding: 8rem 0;
-  background-color: var(--bg-secondary);
-  background-image: radial-gradient(var(--border) 1px, transparent 1px);
-  background-size: 24px 24px;
+  background-color: var(--bg-primary);
+  background-image: none !important;
+  /* Force remove any patterns */
   position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .newsletterContainer {
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 24px;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+  border-radius: 32px;
+  /* Smooth rounded corners */
+  box-shadow: 0 20px 60px -10px rgba(0, 0, 0, 0.08);
+  /* Premium soft shadow */
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  width: 100%;
+  max-width: 1100px;
+  /* Slightly wider */
 }
 
 @media (min-width: 768px) {
   .newsletterContainer {
     flex-direction: row;
-    max-width: 1000px;
-    margin: 0 auto;
+    margin: 0 2rem;
   }
 }
 
 .newsletterTextSide {
   flex: 1;
-  padding: 4rem;
+  padding: 5rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  background: var(--bg-card);
+  /* Dark side */
+  background: #1a1a1a;
+  color: #ffffff;
 }
 
 .newsletterFormSide {
   flex: 1;
-  padding: 4rem;
-  background: var(--text-primary);
-  color: var(--bg-primary);
+  padding: 5rem;
+  /* Light side */
+  background: #e5e5e5;
+  color: #1a1a1a;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  /* Center the form visually in this block */
+  position: relative;
+}
+
+/* Dark Mode Overrides - Full Dark Aesthetic */
+[data-theme='dark'] .newsletterTextSide {
+  background: var(--bg-secondary);
+  /* Dark Grey */
+  color: var(--text-primary);
+}
+
+[data-theme='dark'] .newsletterFormSide {
+  background: var(--bg-primary);
+  /* Deep Black */
+  color: var(--text-primary);
+}
+
+[data-theme='dark'] .newsletterTitle {
+  color: var(--text-primary);
+}
+
+[data-theme='dark'] .newsletterText {
+  color: var(--text-secondary);
+}
+
+[data-theme='dark'] .newsletterInput {
+  background: rgba(255, 255, 255, 0.05);
+  /* Subtle Translucent */
+  border-color: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+[data-theme='dark'] .newsletterInput::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+[data-theme='dark'] .subscribeBtn {
+  background: #fff;
+  /* White Button popping on Dark BG */
+  color: #000;
+  border: none;
+}
+
+[data-theme='dark'] .subscribeBtn:hover {
+  background: #e0e0e0;
+  box-shadow: 0 4px 15px rgba(255, 255, 255, 0.1);
 }
 
 .newsletterTitle {
   font-family: var(--font-serif);
-  font-size: 2.5rem;
-  font-weight: 700;
+  font-size: 3rem;
+  /* Larger title */
+  font-weight: 800;
   margin-bottom: 1rem;
-  color: var(--text-primary);
+  color: inherit;
+  /* Inherit white from parent */
   line-height: 1.1;
+  letter-spacing: -0.02em;
 }
 
 .newsletterText {
-  color: var(--text-secondary);
-  font-size: 1.1rem;
-  max-width: 400px;
+  color: rgba(255, 255, 255, 0.7);
+  /* Soft white */
+  font-size: 1.2rem;
+  max-width: 450px;
+  line-height: 1.6;
 }
 
 .newsletterForm {
   display: flex;
+  flex-direction: row;
+  /* Back to row for desktop? or keeping stack? Let's try Row for this specific layout as per image */
   gap: 0.5rem;
   width: 100%;
-  max-width: 400px;
+  max-width: 450px;
 }
 
-/* Input needs to look good on DARK background (since form side is text-primary color) */
+/* Input needs to look good on LIGHT background */
 .newsletterInput {
   flex: 1;
-  padding: 0.75rem 1.25rem;
+  padding: 1rem 1.5rem;
   border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(0, 0, 0, 0.1);
   font-size: 1rem;
-  background: rgba(255, 255, 255, 0.1);
-  color: #fff;
-  /* Always white text on dark side */
+  background: rgba(0, 0, 0, 0.05);
+  /* Slight dark tint on light bg */
+  color: #000;
   font-family: var(--font-sans);
   transition: all 0.2s;
 }
 
 .newsletterInput::placeholder {
-  color: rgba(255, 255, 255, 0.5);
+  color: rgba(0, 0, 0, 0.5);
 }
 
 .newsletterInput:focus {
   outline: none;
-  background: rgba(255, 255, 255, 0.15);
-  border-color: #fff;
+  background: #fff;
+  border-color: #000;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
-/* Button needs to pop against DARK background */
+/* Button needs to pop against LIGHT background */
 .subscribeBtn {
-  background: #fff;
-  color: #000;
-  padding: 0.75rem 1.5rem;
+  width: auto;
+  background: #000;
+  color: #fff;
+  padding: 1rem 2rem;
   border-radius: 8px;
   font-weight: 700;
+  font-size: 1rem;
   border: none;
   cursor: pointer;
-  white-space: nowrap;
-  transition: transform 0.2s;
+  transition: transform 0.2s, box-shadow 0.2s;
   font-family: var(--font-sans);
 }
 
 .subscribeBtn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  background: #333;
 }
+
 
 /* Handling Light Mode special case for Contrast */
 /* When theme is light: .text-primary is dark, .bg-primary is light. 
@@ -452,27 +517,42 @@
    Right side is Light (White). Content needs adaptation?
 */
 
-[data-theme='dark'] .newsletterFormSide {
-  background: #e0e0e0;
-  /* Explicit light background for contrast in dark mode */
-  color: #121212;
+[data-theme='reading'] .newsletterTextSide {
+  background: var(--text-primary);
+  /* Deep brown */
+  color: var(--bg-primary);
+  /* Cream text */
 }
 
-[data-theme='dark'] .newsletterInput {
-  background: rgba(0, 0, 0, 0.05);
-  border-color: rgba(0, 0, 0, 0.1);
-  color: #000;
+[data-theme='reading'] .newsletterFormSide {
+  background: var(--bg-primary);
+  /* Cream bg */
+  color: var(--text-primary);
+  /* Brown text */
 }
 
-[data-theme='dark'] .newsletterInput::placeholder {
-  color: rgba(0, 0, 0, 0.5);
+[data-theme='reading'] .newsletterTitle {
+  color: var(--bg-primary);
 }
 
-[data-theme='dark'] .subscribeBtn {
-  background: #000;
-  color: #fff;
+[data-theme='reading'] .newsletterText {
+  color: rgba(255, 250, 240, 0.8);
 }
 
+[data-theme='reading'] .newsletterInput {
+  background: rgba(74, 59, 50, 0.05);
+  border-color: rgba(74, 59, 50, 0.1);
+  color: var(--text-primary);
+}
+
+[data-theme='reading'] .newsletterInput::placeholder {
+  color: rgba(74, 59, 50, 0.5);
+}
+
+[data-theme='reading'] .subscribeBtn {
+  background: var(--text-primary);
+  color: var(--bg-primary);
+}
 
 @media (max-width: 768px) {
   .newsletterForm {
