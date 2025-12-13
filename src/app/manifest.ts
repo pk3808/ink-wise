@@ -7,16 +7,16 @@ export default function manifest(): MetadataRoute.Manifest {
         description: 'A sanctuary for thoughtful writing and deep reading.',
         start_url: '/',
         display: 'standalone',
-        background_color: '#EADDCA', // bg-primary
+        background_color: '#f1e8d9ff', // bg-primary
         theme_color: '#fcfbf7',
         icons: [
             {
-                src: '/inkwise.png',
+                src: '/splashicon.png',
                 sizes: '162x162',
                 type: 'image/png',
             },
             {
-                src: '/inkwise.png',
+                src: '/splashicon.png',
                 sizes: '192x192',
                 type: 'image/png',
             },
