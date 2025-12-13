@@ -61,8 +61,8 @@
 
 @keyframes ripple {
     0% {
-        top: 40px;
-        left: 40px;
+        top: 30px;
+        left: 30px;
         width: 0;
         height: 0;
         opacity: 0.8;
@@ -73,9 +73,9 @@
         top: -10px;
         /* Expand slightly beyond */
         left: -10px;
-        width: 100px;
+        width: 80px;
         /* Expand larger */
-        height: 100px;
+        height: 80px;
         opacity: 0;
     }
 }

@@ -61,6 +61,33 @@ export const MOCK_BLOGS = [
         date: "Dec 01, 2025",
         readTime: "6 min",
         image: "https://picsum.photos/id/106/600/800" // Portrait 3:4 (Nature/Light)
+    },
+    {
+        slug: "psychology-of-color",
+        title: "The Psychology of Color in Branding",
+        excerpt: "Understanding how color choices influence perception and emotional connection with your audience.",
+        category: "Design",
+        date: "Nov 30, 2025",
+        readTime: "6 min",
+        image: "https://picsum.photos/id/40/800/600"
+    },
+    {
+        slug: "need-silence",
+        title: "Why We Need Silence",
+        excerpt: "In a noisy world, silence is not just the absence of sound, but a vital nutrient for our mental health.",
+        category: "Self",
+        date: "Nov 28, 2025",
+        readTime: "4 min",
+        image: "https://picsum.photos/id/10/800/600"
+    },
+    {
+        slug: "remote-paradigm",
+        title: "Remote Work: A Paradigm Shift",
+        excerpt: "Analyzing the long-term effects of distributed teams on productivity, culture, and life balance.",
+        category: "Business",
+        date: "Nov 25, 2025",
+        readTime: "8 min",
+        image: "https://picsum.photos/id/180/800/600"
     }
 ];
 

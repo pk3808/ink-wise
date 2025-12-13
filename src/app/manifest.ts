@@ -12,12 +12,12 @@ export default function manifest(): MetadataRoute.Manifest {
         icons: [
             {
                 src: '/inkwise.png',
-                sizes: '192x192',
+                sizes: '19x19',
                 type: 'image/png',
             },
             {
                 src: '/inkwise.png',
-                sizes: '512x512',
+                sizes: '12x12',
                 type: 'image/png',
             },
         ],

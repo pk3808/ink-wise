@@ -22,6 +22,14 @@
     box-shadow: 0 6px 16px rgba(99, 102, 241, 0.4);
 }
 
+@media (max-width: 768px) {
+    .fab {
+        bottom: 7rem;
+        /* Move above InteractionBar */
+        right: 1.5rem;
+    }
+}
+
 .container {
     position: fixed;
     bottom: 2rem;
