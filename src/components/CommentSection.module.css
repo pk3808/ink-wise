@@ -274,6 +274,11 @@
     color: var(--accent);
 }
 
+.reportBtn:hover {
+    color: #ef4444;
+    /* Red color for report */
+}
+
 @media (max-width: 768px) {
     .commentList {
         padding: 1rem 1.5rem 2rem;

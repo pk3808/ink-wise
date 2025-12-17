@@ -64,6 +64,10 @@
     transform: scale(0.9);
 }
 
+.btn.active {
+    color: var(--accent);
+}
+
 /* Ink Bottle specific styles */
 .inkBtn {
     color: var(--text-secondary);

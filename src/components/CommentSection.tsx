@@ -2,6 +2,7 @@
 
 import React, { useState, useRef } from 'react';
 import styles from './CommentSection.module.css';
+import ReportModal from './ReportModal';
 
 
 interface Comment {
@@ -22,6 +23,7 @@ const MOCK_COMMENTS: Comment[] = [
 export default function CommentSection() {
     const [comments, setComments] = useState<Comment[]>(MOCK_COMMENTS);
     const [newComment, setNewComment] = useState("");
+    const [reportModal, setReportModal] = useState<{ isOpen: boolean, id?: number }>({ isOpen: false });
     const listRef = useRef<HTMLDivElement>(null);
 
     const handleSubmit = () => {
@@ -108,12 +110,24 @@ export default function CommentSection() {
                             <div className={styles.actions}>
                                 <button className={styles.actionBtn}>Reply</button>
                                 <button className={styles.actionBtn}>Like</button>
+                                <button
+                                    className={`${styles.actionBtn} ${styles.reportBtn}`}
+                                    onClick={() => setReportModal({ isOpen: true, id: comment.id })}
+                                >
+                                    Report
+                                </button>
                             </div>
                         </div>
                     ))}
                 </div>
             </div>
 
+            <ReportModal
+                isOpen={reportModal.isOpen}
+                onClose={() => setReportModal({ ...reportModal, isOpen: false })}
+                type="comment"
+                id={reportModal.id}
+            />
         </section>
     );
 }
