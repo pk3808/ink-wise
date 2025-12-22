@@ -3,7 +3,8 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import styles from './page.module.css';
-import { ArrowLeft, Chrome } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
+import GoogleIcon from '../../components/GoogleIcon';
 
 export default function Login() {
     const [email, setEmail] = useState('');
@@ -47,7 +48,7 @@ export default function Login() {
 
                     <form onSubmit={handleLogin} className={styles.form}>
                         <button type="button" className={styles.googleBtn}>
-                            <Chrome size={20} />
+                            <GoogleIcon />
                             Continue with Google
                         </button>
 

@@ -3,7 +3,8 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import styles from './page.module.css';
-import { ArrowLeft, Chrome } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
+import GoogleIcon from '../../components/GoogleIcon';
 
 export default function Register() {
     const [name, setName] = useState('');
@@ -54,7 +55,7 @@ export default function Register() {
 
                     <form onSubmit={handleRegister} className={styles.form}>
                         <button type="button" className={styles.googleBtn}>
-                            <Chrome size={20} />
+                            <GoogleIcon />
                             Sign up with Google
                         </button>
 
