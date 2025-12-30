@@ -14,6 +14,19 @@
     justify-content: center;
     padding: 2rem;
     position: relative;
+    background: radial-gradient(circle at 50% 50%, rgba(var(--primary-rgb), 0.05) 0%, transparent 100%);
+}
+
+.paperTexture {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    opacity: 0.05;
+    pointer-events: none;
+    z-index: 1;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3Insight%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
 }
 
 /* Ink Splatter Background Effect */
@@ -22,54 +35,130 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 600px;
-    height: 600px;
-    background: radial-gradient(circle, rgba(var(--primary-rgb), 0.15) 0%, transparent 70%);
-    filter: blur(60px);
+    width: 800px;
+    height: 800px;
+    background: radial-gradient(circle, rgba(var(--primary-rgb), 0.12) 0%, transparent 70%);
+    filter: blur(80px);
     pointer-events: none;
-    z-index: 1;
+    z-index: 2;
+}
+
+.inkBloom {
+    position: absolute;
+    border-radius: 50%;
+    background: var(--primary);
+    filter: blur(60px);
+    opacity: 0.1;
+    pointer-events: none;
+    z-index: 2;
+    animation: bloomPulse 8s ease-in-out infinite alternate;
+}
+
+.bloom1 {
+    width: 400px;
+    height: 350px;
+    top: 10%;
+    left: 15%;
+}
+
+.bloom2 {
+    width: 350px;
+    height: 400px;
+    bottom: 15%;
+    right: 10%;
+    background: var(--text-primary);
+    animation-delay: -4s;
+}
+
+/* Sharp Droplets */
+.inkDrop {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    background: var(--primary);
+    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+    z-index: 3;
+    opacity: 0.4;
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+}
+
+.drop1 {
+    top: 25%;
+    right: 20%;
+    animation: float 5s ease-in-out infinite;
+}
+
+.drop2 {
+    bottom: 30%;
+    left: 15%;
+    width: 8px;
+    height: 8px;
+    animation: float 7s ease-in-out infinite -2s;
+}
+
+.drop3 {
+    top: 60%;
+    right: 35%;
+    width: 10px;
+    height: 10px;
+    animation: float 6s ease-in-out infinite -4s;
+}
+
+.inkDrop::after {
+    content: '';
+    position: absolute;
+    top: -4px;
+    left: 4px;
+    width: 4px;
+    height: 8px;
+    background: inherit;
+    border-radius: 50% 50% 0 0;
 }
 
 .content {
     text-align: center;
     position: relative;
-    z-index: 2;
+    z-index: 10;
     max-width: 600px;
 }
 
 .errorCode {
-    font-size: 10rem;
+    font-size: 12rem;
     font-weight: 950;
-    line-height: 1;
+    line-height: .9;
     margin: 0;
-    background: linear-gradient(135deg, var(--text-primary) 0%, var(--primary) 100%);
+    background: linear-gradient(180deg, var(--text-primary) 30%, var(--primary) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    letter-spacing: -0.08em;
-    opacity: 0.9;
-    animation: float 6s ease-in-out infinite;
+    letter-spacing: -0.1em;
+    filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.1));
+    animation: floatStrong 6s ease-in-out infinite;
 }
 
 .title {
-    font-size: 2.5rem;
+    font-size: 2.8rem;
     font-weight: 850;
     color: var(--text-primary);
-    margin: 1rem 0 1.5rem;
-    letter-spacing: -0.03em;
+    margin: 1.5rem 0 1rem;
+    letter-spacing: -0.04em;
+    line-height: 1.1;
 }
 
 .description {
-    font-size: 1.15rem;
+    font-size: 1.2rem;
     color: var(--text-secondary);
-    line-height: 1.6;
-    margin-bottom: 3rem;
-    opacity: 0.8;
+    line-height: 1.7;
+    margin-bottom: 3.5rem;
+    max-width: 480px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .illustration {
-    margin-bottom: 3rem;
+    margin-bottom: 2rem;
     color: var(--primary);
-    animation: sway 4s ease-in-out infinite;
+    filter: drop-shadow(0 0 20px rgba(var(--primary-rgb), 0.3));
+    animation: dripSway 4s ease-in-out infinite;
 }
 
 .actions {
@@ -82,67 +171,98 @@
 .homeBtn {
     background: var(--primary);
     color: white;
-    padding: 1rem 2.5rem;
-    border-radius: 16px;
-    font-weight: 800;
+    padding: 1.1rem 3rem;
+    border-radius: 20px;
+    font-weight: 850;
     text-decoration: none;
-    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-    box-shadow: 0 10px 25px rgba(var(--primary-rgb), 0.3);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 15px 35px rgba(var(--primary-rgb), 0.35);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
 }
 
 .homeBtn:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 15px 30px rgba(var(--primary-rgb), 0.4);
+    transform: translateY(-6px) scale(1.02);
+    box-shadow: 0 20px 45px rgba(var(--primary-rgb), 0.45);
 }
 
 .exploreBtn {
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(255, 255, 255, 0.03);
     border: 1px solid var(--border);
     color: var(--text-primary);
-    padding: 1rem 2rem;
-    border-radius: 16px;
+    padding: 1.1rem 2.5rem;
+    border-radius: 20px;
     font-weight: 700;
     text-decoration: none;
-    transition: all 0.2s;
-    backdrop-filter: blur(10px);
+    transition: all 0.3s;
+    backdrop-filter: blur(15px);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
 }
 
 .exploreBtn:hover {
-    background: rgba(255, 255, 255, 0.1);
-    transform: translateY(-2px);
+    background: rgba(255, 255, 255, 0.08);
+    border-color: var(--primary);
+    transform: translateY(-3px);
+}
+
+@keyframes floatStrong {
+
+    0%,
+    100% {
+        transform: translateY(0) rotate(0deg);
+    }
+
+    50% {
+        transform: translateY(-30px) rotate(2deg);
+    }
+}
+
+@keyframes bloomPulse {
+    0% {
+        transform: scale(1) translate(0, 0);
+        opacity: 0.08;
+    }
+
+    100% {
+        transform: scale(1.2) translate(5%, 5%);
+        opacity: 0.15;
+    }
+}
+
+@keyframes dripSway {
+
+    0%,
+    100% {
+        transform: translateY(0) rotate(-8deg);
+    }
+
+    50% {
+        transform: translateY(10px) rotate(8deg);
+    }
 }
 
 @keyframes float {
 
     0%,
     100% {
-        transform: translateY(0);
+        transform: translate(0, 0);
     }
 
     50% {
-        transform: translateY(-20px);
-    }
-}
-
-@keyframes sway {
-
-    0%,
-    100% {
-        transform: rotate(-5deg);
-    }
-
-    50% {
-        transform: rotate(5deg);
+        transform: translate(10px, -20px);
     }
 }
 
 @media (max-width: 640px) {
     .errorCode {
-        font-size: 7rem;
+        font-size: 8rem;
     }
 
     .title {
-        font-size: 1.75rem;
+        font-size: 2rem;
     }
 
     .actions {
@@ -153,6 +273,6 @@
     .homeBtn,
     .exploreBtn {
         width: 100%;
-        text-align: center;
+        justify-content: center;
     }
 }

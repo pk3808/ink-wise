@@ -10,7 +10,13 @@ export default function NotFound() {
             <Navbar />
 
             <main className={styles.main}>
+                <div className={styles.paperTexture} />
                 <div className={styles.bgInk} />
+                <div className={`${styles.inkBloom} ${styles.bloom1}`} />
+                <div className={`${styles.inkBloom} ${styles.bloom2}`} />
+                <div className={`${styles.inkDrop} ${styles.drop1}`} />
+                <div className={`${styles.inkDrop} ${styles.drop2}`} />
+                <div className={`${styles.inkDrop} ${styles.drop3}`} />
 
                 <div className={styles.content}>
                     <div className={styles.illustration}>
