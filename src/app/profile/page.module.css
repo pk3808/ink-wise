@@ -596,7 +596,62 @@
     margin-top: 1rem;
 }
 
-/* Custom Toggle Switch */
+/* Password Toggle Styles (Matching Login Page) */
+.passwordInputWrapper {
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.toggleBtn {
+    position: absolute;
+    right: 12px;
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s;
+    z-index: 5;
+}
+
+.toggleBtn:hover {
+    color: var(--text-primary);
+}
+
+@keyframes iconPop {
+    0% {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.iconAnimate {
+    animation: iconPop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+.iconImage {
+    width: 20px;
+    height: auto;
+    object-fit: contain;
+    transition: filter 0.2s ease;
+}
+
+:global([data-theme='dark']) .iconImage {
+    filter: invert(1);
+    opacity: 0.8;
+}
+
+/* Custom Toggle Switch (can be kept or removed if unused) */
 .toggleWrapper {
     display: flex;
     align-items: center;

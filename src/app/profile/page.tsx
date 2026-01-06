@@ -103,7 +103,11 @@ export default function ProfilePage() {
         newPassword: '',
         confirmPassword: ''
     });
-    const [showPassword, setShowPassword] = useState(false);
+    // Individual toggle states
+    const [showCurrentPass, setShowCurrentPass] = useState(false);
+    const [showNewPass, setShowNewPass] = useState(false);
+    const [showConfirmPass, setShowConfirmPass] = useState(false);
+
     const [passwordMessage, setPasswordMessage] = useState({ type: '', text: '' });
 
     useEffect(() => {
@@ -582,12 +586,23 @@ export default function ProfilePage() {
                                                     <label className={styles.label}>Current Password</label>
                                                     <div className={styles.passwordInputWrapper}>
                                                         <input
-                                                            type={showPassword ? "text" : "password"}
+                                                            type={showCurrentPass ? "text" : "password"}
                                                             className={styles.input}
                                                             placeholder="Enter current password"
                                                             value={passwordForm.currentPassword}
                                                             onChange={e => setPasswordForm({ ...passwordForm, currentPassword: e.target.value })}
                                                         />
+                                                        <button
+                                                            type="button"
+                                                            className={styles.toggleBtn}
+                                                            onClick={() => setShowCurrentPass(!showCurrentPass)}
+                                                        >
+                                                            {showCurrentPass ? (
+                                                                <img src="/book.png" alt="Hide" className={`${styles.iconAnimate} ${styles.iconImage}`} />
+                                                            ) : (
+                                                                <img src="/lock.png" alt="Show" className={`${styles.iconAnimate} ${styles.iconImage}`} />
+                                                            )}
+                                                        </button>
                                                     </div>
                                                 </div>
 
@@ -595,12 +610,23 @@ export default function ProfilePage() {
                                                     <label className={styles.label}>New Password</label>
                                                     <div className={styles.passwordInputWrapper}>
                                                         <input
-                                                            type={showPassword ? "text" : "password"}
+                                                            type={showNewPass ? "text" : "password"}
                                                             className={styles.input}
                                                             placeholder="Enter new password"
                                                             value={passwordForm.newPassword}
                                                             onChange={e => setPasswordForm({ ...passwordForm, newPassword: e.target.value })}
                                                         />
+                                                        <button
+                                                            type="button"
+                                                            className={styles.toggleBtn}
+                                                            onClick={() => setShowNewPass(!showNewPass)}
+                                                        >
+                                                            {showNewPass ? (
+                                                                <img src="/book.png" alt="Hide" className={`${styles.iconAnimate} ${styles.iconImage}`} />
+                                                            ) : (
+                                                                <img src="/lock.png" alt="Show" className={`${styles.iconAnimate} ${styles.iconImage}`} />
+                                                            )}
+                                                        </button>
                                                     </div>
                                                 </div>
 
@@ -608,26 +634,27 @@ export default function ProfilePage() {
                                                     <label className={styles.label}>Confirm New Password</label>
                                                     <div className={styles.passwordInputWrapper}>
                                                         <input
-                                                            type={showPassword ? "text" : "password"}
+                                                            type={showConfirmPass ? "text" : "password"}
                                                             className={styles.input}
                                                             placeholder="Confirm new password"
                                                             value={passwordForm.confirmPassword}
                                                             onChange={e => setPasswordForm({ ...passwordForm, confirmPassword: e.target.value })}
                                                         />
+                                                        <button
+                                                            type="button"
+                                                            className={styles.toggleBtn}
+                                                            onClick={() => setShowConfirmPass(!showConfirmPass)}
+                                                        >
+                                                            {showConfirmPass ? (
+                                                                <img src="/book.png" alt="Hide" className={`${styles.iconAnimate} ${styles.iconImage}`} />
+                                                            ) : (
+                                                                <img src="/lock.png" alt="Show" className={`${styles.iconAnimate} ${styles.iconImage}`} />
+                                                            )}
+                                                        </button>
                                                     </div>
                                                 </div>
 
-                                                <div className={styles.toggleWrapper} style={{ marginBottom: '1.5rem' }}>
-                                                    <label className={styles.toggleSwitch}>
-                                                        <input
-                                                            type="checkbox"
-                                                            checked={showPassword}
-                                                            onChange={() => setShowPassword(!showPassword)}
-                                                        />
-                                                        <span className={styles.slider}></span>
-                                                    </label>
-                                                    <span className={styles.toggleLabel}>Show Passwords</span>
-                                                </div>
+                                                {/* Removed old toggle switch */}
 
                                                 {passwordMessage.text && (
                                                     <div
